@@ -45,8 +45,8 @@ export class ProductsService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findById(id: number) {
+    return await this.productsRepository.findOneBy({ id });
   }
 
   update(id: number) {
