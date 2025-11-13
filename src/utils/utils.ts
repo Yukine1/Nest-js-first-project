@@ -7,7 +7,11 @@ export interface Product {
 }
 
 export interface Pagination<T> {
-  page: number;
-  total: number;
+  pagination: {
+    page: number;
+    total: number;
+    limit?: number | null;
+    nextPage?: number | null;
+  };
   data: T | null;
 }
