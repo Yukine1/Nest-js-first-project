@@ -1,82 +1,45 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  CreateProductEntity,
-  ProductsEntity,
-  UpdateProductEntity,
-} from './entities/products.entity';
+import { Product } from './products.entity';
 import { DeleteResult, Repository } from 'typeorm';
-import { PaginationDto, ProductDto } from './dto/products.dto';
-import { Pagination } from '../../utils/utils';
+import { ProductDto } from '../../utils/dto/ProductsDto/products.dto';
+import { PageOptionsDto } from '../../utils/dto/PageDto/page-options.dto';
+import { PageMetaDto } from '../../utils/dto/PageMetaDto/page-meta.dto';
+import { PageDto } from '../../utils/dto/PageDto/page.dto';
 
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectRepository(ProductsEntity)
-    private readonly productsRepository: Repository<ProductsEntity>,
+    @InjectRepository(Product)
+    private readonly productsRepository: Repository<Product>,
   ) {}
 
-  // async create(data: ProductDto): Promise<ProductsEntity> {
-  //   const product = this.productsRepository.create({
-  //     name: data.name,
-  //     description: data.description,
-  //     price: data.price,
-  //     pictureUrl: data.pictureUrl,
-  //   });
-  //   return await this.productsRepository.save(product);
-  // }
-
-  async create(data: ProductDto): Promise<CreateProductEntity> {
+  async create(data: ProductDto): Promise<Product> {
     const product = this.productsRepository.create(data);
     return await this.productsRepository.save(product);
   }
 
-  // TODO: Implement pagination for products
-  async findWithQueryParams(
-    paginationDto: PaginationDto,
-  ): Promise<Pagination<ProductsEntity[]>> {
-    const { limit = 10, offset = 0 } = paginationDto;
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Product>> {
+    const queryBuilder = this.productsRepository.createQueryBuilder('products');
 
-    const [products, total] = await this.productsRepository.findAndCount({
-      take: limit,
-      skip: offset,
-    });
+    queryBuilder
+      .orderBy('products.createdAt', pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take);
 
-    const pagination = {
-      total,
-      page: Math.floor(offset / limit) + 1,
-      limit,
-      nextPage:
-        offset + limit < total
-          ? Math.floor((offset + limit) / limit) + 1
-          : null,
-    };
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
 
-    return {
-      data: products,
-      pagination,
-    };
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+    return new PageDto(entities, pageMetaDto);
   }
 
-  async findAll(): Promise<Pagination<ProductsEntity[]>> {
-    const [data, total] = await this.productsRepository.findAndCount();
-
-    const pagination = {
-      total,
-      page: 1,
-    };
-
-    return {
-      pagination,
-      data,
-    };
-  }
-
-  async findById(id: string): Promise<ProductsEntity | null> {
+  async findById(id: string): Promise<Product | null> {
     return await this.productsRepository.findOneBy({ id });
   }
 
-  async update(id: string, data: ProductDto): Promise<UpdateProductEntity> {
+  async update(id: string, data: ProductDto): Promise<Product> {
     const existingProduct = await this.productsRepository.findOneBy({ id });
     if (existingProduct) {
       const updatedProduct = this.productsRepository.merge(

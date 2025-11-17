@@ -5,16 +5,12 @@ import {
   IsPositive,
   IsString,
   IsUrl,
-  IsUUID,
   Min,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 export class ProductDto {
-  @IsUUID('4')
-  id: string;
-
   @ApiProperty({ example: 'Test Product' })
   @IsString()
   @IsNotEmpty()
@@ -22,19 +18,16 @@ export class ProductDto {
 
   @ApiProperty({ example: 'This is a test product' })
   @IsString()
-  @IsOptional()
-  description?: string;
+  description: string;
 
   @ApiProperty({ example: 19.99 })
   @Type(() => Number)
   @IsNumber({ maxDecimalPlaces: 2 })
-  @IsPositive()
-  price!: number;
+  price: number;
 
   @ApiProperty({ example: 'http://example.com/product.jpg' })
   @IsUrl()
-  @IsOptional()
-  pictureUrl?: string;
+  pictureUrl: string;
 }
 
 export class PaginationDto {

@@ -1,15 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { AbstractEntity } from '../../utils/Entities/AbstractEntity.entity';
+import type { Users } from '../users/user.entity';
 
 @Entity('products_entity')
-export class ProductsEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Product extends AbstractEntity {
   @Column({ type: 'varchar', nullable: false })
   name: string;
 
   @Column({ type: 'varchar', nullable: true })
-  description?: string;
+  description: string;
 
   @Column({
     type: 'numeric',
@@ -23,7 +22,10 @@ export class ProductsEntity {
   price: number;
 
   @Column({ type: 'varchar', nullable: true })
-  pictureUrl?: string;
+  pictureUrl: string;
+
+  @ManyToOne('Users', 'products')
+  user: Users;
 }
 
 @Entity('products_entity')
@@ -32,7 +34,7 @@ export class CreateProductEntity {
   name: string;
 
   @Column({ type: 'varchar', nullable: true })
-  description?: string;
+  description: string;
 
   @Column({
     type: 'numeric',
@@ -46,7 +48,7 @@ export class CreateProductEntity {
   price: number;
 
   @Column({ type: 'varchar', nullable: true })
-  pictureUrl?: string;
+  pictureUrl: string;
 }
 
 @Entity('products_entity')
@@ -55,7 +57,7 @@ export class UpdateProductEntity {
   name: string;
 
   @Column({ type: 'varchar', nullable: true })
-  description?: string;
+  description: string;
 
   @Column({
     type: 'numeric',

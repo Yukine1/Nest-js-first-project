@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductsEntity } from './modules/products/entities/products.entity';
 import { ProductsModule } from './modules/products/products.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -14,11 +14,11 @@ import { ProductsModule } from './modules/products/products.module';
       username: 'postgres',
       password: 'GohokuraBaenre2003',
       database: 'nest-js-product-shop',
-      entities: [ProductsEntity],
       synchronize: true,
       autoLoadEntities: true,
     }),
     ProductsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
