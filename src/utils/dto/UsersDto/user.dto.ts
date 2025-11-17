@@ -15,4 +15,8 @@ export class UserDto {
   @ApiProperty()
   @IsEmail()
   email: string;
+
+  @ApiProperty()
+  @IsString()
+  password: string;
 }

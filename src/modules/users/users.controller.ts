@@ -9,12 +9,15 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { PageOptionsDto } from '../../utils/dto/PageDto/page-options.dto';
 import { PageDto } from '../../utils/dto/PageDto/page.dto';
 import { UserDto } from '../../utils/dto/UsersDto/user.dto';
 import { Users } from './user.entity';
 
+@ApiTags('users')
+@ApiBearerAuth()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
