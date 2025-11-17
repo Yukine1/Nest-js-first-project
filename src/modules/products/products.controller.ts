@@ -16,11 +16,13 @@ import {
   ApiCreatedResponse,
   ApiOperation,
   ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 import { PageOptionsDto } from '../../utils/dto/PageDto/page-options.dto';
 import { PageDto } from '../../utils/dto/PageDto/page.dto';
 
+@ApiTags('Products')
 @ApiBearerAuth()
 @Controller('products')
 export class ProductsController {
