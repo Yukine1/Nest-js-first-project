@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { AbstractEntity } from '../../utils/Entities/AbstractEntity.entity';
+import { AbstractEntity } from '../../utils/entities/abstract.entity';
 import type { Users } from '../users/user.entity';
 
 @Entity('products_entity')
