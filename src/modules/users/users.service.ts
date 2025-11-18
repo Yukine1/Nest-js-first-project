@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Users } from './user.entity';
-import { PageDto } from '../../utils/dto/PageDto/page.dto';
-import { PageOptionsDto } from '../../utils/dto/PageDto/page-options.dto';
-import { PageMetaDto } from '../../utils/dto/PageMetaDto/page-meta.dto';
-import { UserDto } from '../../utils/dto/UsersDto/user.dto';
+import { PageDto } from '../../utils/dto/pageDto/page.dto';
+import { PageOptionsDto } from '../../utils/dto/pageDto/page-options.dto';
+import { PageMetaDto } from '../../utils/dto/pageMetaDto/page-meta.dto';
+import { UserDto } from '../../utils/dto/usersDto/user.dto';
 
 @Injectable()
 export class UsersService {

@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { ProductDto } from '../../utils/dto/ProductsDto/products.dto';
+import { ProductDto } from '../../utils/dto/productsDto/products.dto';
 import { Product } from './products.entity';
 import {
   ApiBearerAuth,
@@ -19,8 +19,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { PageOptionsDto } from '../../utils/dto/PageDto/page-options.dto';
-import { PageDto } from '../../utils/dto/PageDto/page.dto';
+import { PageOptionsDto } from '../../utils/dto/pageDto/page-options.dto';
+import { PageDto } from '../../utils/dto/pageDto/page.dto';
 
 @ApiTags('Products')
 @ApiBearerAuth()
